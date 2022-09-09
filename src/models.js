@@ -10,6 +10,7 @@ const Cliente = database.define('cliente', {
     },
     nome: {
         type: DataTypes.STRING(30),
+        allowNull: false,
         validate: {
             notEmpty: true,
         }
@@ -17,12 +18,16 @@ const Cliente = database.define('cliente', {
     email: {
         type: DataTypes.STRING,
         unique: true,
+        allowNull: false,
         validate: {
             notEmpty: true,
-            isEmail: true
+            isEmail: true,
         }
     },
-    password: DataTypes.STRING(100),
+    password: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+    }
 }, {});
 
 const Parceiro = database.define('parceiro', {
@@ -33,30 +38,37 @@ const Parceiro = database.define('parceiro', {
     },
     nome: {
         type: DataTypes.STRING(60),
+        allowNull: false,
         validate: {
-            notEmpty: true
+            notEmpty: true,
+          
         }
     },
     cnpj: {
         type: DataTypes.STRING(14),
+        allowNull: false,
         validate: {
-            notEmpty: true
+            notEmpty: true,
+           
         }
     },
     telefone: {
         type: DataTypes.STRING(13),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
     },
     proprietario: {
         type: DataTypes.STRING(60),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
     },
     cpf: {
         type: DataTypes.STRING(14),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
@@ -71,30 +83,35 @@ const Endereco = database.define('endereco', {
     },
     cep: {
         type: DataTypes.STRING(14),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
     },
     cidade: {
         type: DataTypes.STRING(20),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
     },
     bairro: {
         type: DataTypes.STRING(20),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
     },
     estado: {
         types: DataTypes.STRING(2),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
     },
     rua: {
         types: DataTypes.STRING(30),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
@@ -109,12 +126,14 @@ const Produto = database.define('produto', {
     },
     name: {
         type:  DataTypes.STRING(60),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
     },
     descricao: {
         type: DataTypes.STRING(300),
+        allowNull: false,
         validate: {
             notEmpty: true
         }
@@ -129,13 +148,20 @@ const TipoProduto = database.define('tipoproduto', {
     },
     nome: {
         type: DataTypes.STRING(60),
+        allowNull: false,
         validate: {
             notEmpty: true,
         }
     }
-})
+});
 
-Parceiro.hasOne(Endereco);
-Endereco.belongsTo(Parceiro);
+Parceiro.hasMany(Produto);
+Produto.belongsTo(Parceiro);
+
+Endereco.hasOne(Parceiro);
+Parceiro.belongsTo(Endereco);
+
+Produto.hasMany(TipoProduto);
+TipoProduto.belongsTo(Produto);
 
 module.exports = { database, Cliente, Parceiro, Endereco, Produto, TipoProduto };
