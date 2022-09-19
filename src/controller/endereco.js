@@ -2,7 +2,7 @@ const {Endereco} = require ("../models")
 
 
 
-/** Lista todos os Endereços */
+/** Lista todas as categorias */
 const all = async (req, res, next) => {
     try {
         res.send(await Endereco.findAll());
@@ -11,7 +11,7 @@ const all = async (req, res, next) => {
     }
 }
 
-/** Consulta 1 endereco */
+/** Consulta 1 Endereco */
 
 const one = (req, res, next) => {
     try {
@@ -22,7 +22,7 @@ const one = (req, res, next) => {
     }
 }
 
-/** Inserir um endereco */
+/** Inserir um Endereco */
 const insert = async (req, res, next) => {
     try {
         res.send(await Endereco.create(req.body));
@@ -33,7 +33,7 @@ const insert = async (req, res, next) => {
 
 }
 
-/** Alterando um endereco */ 
+/** Alterando um Endereco */ 
 
 const update = async (req, res, next) => {
     try{
@@ -43,7 +43,7 @@ const update = async (req, res, next) => {
             }
         });
         if (!endereco) {
-            throw new Error("Endereço não encontrado");
+            throw new Error("Endereco não encontrado");
         }
          
         endereco.set(req.body);
@@ -57,7 +57,7 @@ const update = async (req, res, next) => {
 }
 
 
-/**Remover um endereco */
+/**Remover um Endereco */
 
 const remove = async (req, res, next ) => {
     try {
@@ -71,7 +71,7 @@ const remove = async (req, res, next ) => {
             throw new Error ("Endereco Removido");
         }
          
-        await cliente.destroy();
+        await endereco.destroy();
 
         res.status(204);
     }
@@ -80,4 +80,4 @@ const remove = async (req, res, next ) => {
     }
 }
 
-module.exports = { all, one, insert, update, remove };
+module.exports = {all, one, insert, update, remove};

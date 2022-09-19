@@ -80,4 +80,4 @@ const remove = async (req, res, next ) => {
     }
 }
 
-module.exports = { all, one, insert, update, remove };
+module.exports = {all, one, insert, update, remove};
