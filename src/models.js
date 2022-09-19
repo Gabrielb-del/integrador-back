@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const database = new Sequelize('sqlite:./db.sqlite');
+const database = new Sequelize('mysql: //root:example@localhost:2000/');
 
 const Cliente = database.define('cliente', {
     id: {

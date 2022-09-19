@@ -1,17 +1,17 @@
-const {Cliente} = require ("../models")
+const {Endereco} = require ("../models")
 
 
 
-/** Lista todas as categorias */
+/** Lista todos os Endereços */
 const all = async (req, res, next) => {
     try {
-        res.send(await Cliente.findAll());
+        res.send(await Endereco.findAll());
     } catch (err) {
         next (err)
     }
 }
 
-/** Consulta 1 cliente */
+/** Consulta 1 endereco */
 
 const one = (req, res, next) => {
     try {
@@ -22,33 +22,33 @@ const one = (req, res, next) => {
     }
 }
 
-/** Inserir um cliente */
+/** Inserir um endereco */
 const insert = async (req, res, next) => {
     try {
-        res.send(await Cliente.create(req.body));
-        res.send(cliente)
+        res.send(await Endereco.create(req.body));
+        res.send(endereco)
     } catch (err) {
         next (err)
     }
 
 }
 
-/** Alterando um cliente */ 
+/** Alterando um endereco */ 
 
 const update = async (req, res, next) => {
     try{
-        const cliente = await Cliente.findOne ({
+        const endereco = await Endereco.findOne ({
             where: {
                 id: req.params.id
             }
         });
-        if (!cliente) {
-            throw new Error("Cliente não encontrado");
+        if (!endereco) {
+            throw new Error("Endereço não encontrado");
         }
          
-        cliente.set(req.body);
+        endereco.set(req.body);
         
-        res.send(await cliente.save());
+        res.send(await endereco.save());
     
     }
     catch (err) {
@@ -57,18 +57,18 @@ const update = async (req, res, next) => {
 }
 
 
-/**Remover um cliente */
+/**Remover um endereco */
 
 const remove = async (req, res, next ) => {
     try {
-        const cliente = await Cliente.findOne({
+        const endereco = await Endereco.findOne({
             where: {
                 id: req.params.id
             }
         });
 
-        if (!cliente) {
-            throw new Error ("Cliente Removido");
+        if (!endereco) {
+            throw new Error ("Endereco Removido");
         }
          
         await cliente.destroy();
