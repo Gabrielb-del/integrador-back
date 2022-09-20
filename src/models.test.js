@@ -1,7 +1,7 @@
-const { DESCRIBE } = require('sequelize/types/query-types');
+
 const {database, Cliente, Parceiro, Endereco, Produto, TipoProduto } = require('./models.js');
 
-DESCRIBE("Cliente", () => {
+describe("Cliente", () => {
     beforeAll(async () => {
         await database.sync();
     });
@@ -42,9 +42,5 @@ DESCRIBE("Cliente", () => {
         expect(cliente).not.toBeNull();
         expect(cliente.id).toBeDefined();
         expect(cliente.nome).toBe("Zezo");
-        
-    })
-
-
-
+    });
 });
