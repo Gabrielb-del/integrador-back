@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const database = new Sequelize('mysql: //root:example@localhost:2000/');
+const database = new Sequelize('sqlite::memory:", { logging: false }');
 
 const Cliente = database.define('cliente', {
     id: {
@@ -103,14 +103,14 @@ const Endereco = database.define('endereco', {
         }
     },
     estado: {
-        types: DataTypes.STRING(2),
+        type: DataTypes.STRING(2),
         allowNull: false,
         validate: {
             notEmpty: true
         }
     },
     rua: {
-        types: DataTypes.STRING(30),
+        type: DataTypes.STRING(30),
         allowNull: false,
         validate: {
             notEmpty: true
