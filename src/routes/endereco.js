@@ -1,5 +1,5 @@
 const express = require("express");
-const { all, one, insert, update, remove } = require("../controllers/endereco");
+const { all, one, insert, update, remove } = require("../controller/endereco");
 
 const router = express.Router();
 
