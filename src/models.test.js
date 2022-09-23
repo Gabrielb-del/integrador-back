@@ -1,12 +1,12 @@
 
-const {database, Cliente, Parceiro, Endereco, Produto, TipoProduto } = require('./models.js');
+const { database, Cliente, Parceiro, Endereco, Produto, TipoProduto } = require('./models.js');
 
 describe("Cliente", () => {
     beforeAll(async () => {
         await database.sync();
     });
 
-     test("List", async () => { 
+    test("List", async () => {
         await Cliente.bulkCreate([
             {
                 nome: "Zezo",
@@ -24,7 +24,7 @@ describe("Cliente", () => {
                 password: "murilinbalatensa"
             }
         ]);
-    
+
         const cliente = await Cliente.findAll();
 
         expect(cliente.length).toBe(3);
@@ -82,9 +82,367 @@ describe("Cliente", () => {
         await expect(Cliente.create({})).rejects.toThrow();
 
     });
+
+    test("Update", async () => {
+        const cliente = await Cliente.create({
+            nome: "Gabriel",
+            email: "gabriel@gg.com",
+            password: "6542"
+        });
+
+        cliente.nome = "Priscila";
+
+        await expect(cliente.save()).resolves.toBeDefined();
+
+        const cliente2 = await Cliente.findOne({
+            where: {
+                id: cliente.id
+            }
+        });
+
+        expect(cliente2.name).toBe(cliente.name);
+    });
+
+    test("Delete", async () => {
+        const cliente = await Cliente.create({
+
+            nome: "Gabriel",
+            email: "gabriel@gga.com",
+            password: "6542"
+
+        });
+
+        await expect(cliente.destroy()).resolves.toBeTruthy();
+    });
 });
 
-describe ("Parceiro", () =>{
+describe("Endereco", () => {
+    beforeAll(async () => {
+        await database.sync();
+    });
+
+    test("List", async () => {
+        await Endereco.bulkCreate([
+            {
+                cep: "16984-732",
+                estado: "SP",
+                cidade: "Bauru",
+                bairro: "Pq são joão",
+                rua: "Rua Itacuruca"
+            },
+            {
+                cep: "17042-350",
+                estado: "BA",
+                cidade: "Salvador",
+                bairro: "Bela Vista",
+                rua: "Bernardino"
+            },
+            {
+                cep: "17054-420",
+                estado: "MG",
+                cidade: "Santo André",
+                bairro: "Santo Antonio",
+                rua: "Rua do Ipiranga"
+            }
+        ]);
+
+        const endereco = await Endereco.findAll();
+
+        expect(endereco.length).toBe(3);
+        expect(endereco[0].estado).toBe("SP");
+    });
+
+    test("Insert", async () => {
+
+        const endereco = await Endereco.create({
+
+            cep: "16984-732",
+            estado: "SP",
+            cidade: "Bauru",
+            bairro: "Pq são joão",
+            rua: "Rua Itacuruca"
+
+        });
+
+        expect(endereco).toBeDefined();
+
+        expect(endereco).not.toBeNull();
+        expect(endereco.id).toBeDefined();
+        expect(endereco.cep).toBe("16984-732");
+
+        // Inserindo com os dados brancos
+        await expect(Endereco.create({
+            id: endereco.id,
+            cep: "",
+            estado: "",
+            cidade: "",
+            bairro: "",
+            rua: ""
+        })).rejects.toThrow();
+
+        await expect(Endereco.create({
+            id: endereco.id,
+            cep: "",
+            estado: "xxx",
+            cidade: "xxx",
+            bairro: "xxx",
+            rua: "xxx"
+        })).rejects.toThrow();
+
+        await expect(Endereco.create({
+            id: endereco.id,
+            cep: "xxx",
+            estado: "",
+            cidade: "xxx",
+            bairro: "xxx",
+            rua: "xxx"
+        })).rejects.toThrow();
+
+        await expect(Endereco.create({
+            id: endereco.id,
+            cep: "xxx",
+            estado: "xxx",
+            cidade: "",
+            bairro: "xxx",
+            rua: "xxx"
+        })).rejects.toThrow();
+
+        await expect(Endereco.create({
+            id: endereco.id,
+            cep: "xxx",
+            estado: "xxx",
+            cidade: "xxx",
+            bairro: "",
+            rua: "xxx"
+        })).rejects.toThrow();
+
+        await expect(Endereco.create({
+            id: endereco.id,
+            cep: "xxx",
+            estado: "xxx",
+            cidade: "xxx",
+            bairro: "xxx",
+            rua: ""
+        })).rejects.toThrow();
+
+        // Inserindo sem nenhuma informação
+        await expect(Endereco.create({})).rejects.toThrow();
+
+    });
+
+    test("Update", async () => {
+        const endereco = await Endereco.create({
+            cep: "17042-350",
+            estado: "BA",
+            cidade: "Salvador",
+            bairro: "Bela Vista",
+            rua: "Bernardino"
+        });
+
+        endereco.cep = "17023-654";
+
+        await expect(endereco.save()).resolves.toBeDefined();
+
+        const endereco2 = await Endereco.findOne({
+            where: {
+                id: endereco.id
+            }
+        });
+
+        expect(endereco2.cep).toBe(endereco.cep);
+    });
+
+    test("Delete", async () => {
+        const endereco = await Endereco.create({
+
+            cep: "17042-350",
+            estado: "BA",
+            cidade: "Salvador",
+            bairro: "Bela Vista",
+            rua: "Bernardino"
+
+        });
+
+        await expect(endereco.destroy()).resolves.toBeTruthy();
+    });
+});
+
+describe("Produto", () => {
+    beforeAll(async () => {
+        await database.sync();
+    });
+
+    test("List", async () => {
+        await Produto.bulkCreate([
+            {
+                name: "Tênis",
+                descricao: "tenis muito resistente, tamoanho 41"
+            },
+            {
+                name: "Camisa",
+                descricao: "camisa tamanho G"
+            },
+            {
+                name: "Óculos",
+                descricao: "Óculos de sol perfeito para praia"
+            }
+        ]);
+
+        const produto = await Produto.findAll();
+
+        expect(produto.length).toBe(3);
+        expect(produto[0].name).toBe("Tênis");
+    });
+
+    test("Insert", async () => {
+
+        const produto = await Produto.create({
+
+            name: "Tênis",
+            descricao: "tenis muito resistente, tamoanho 41"
+
+        });
+
+        expect(produto).toBeDefined();
+
+        expect(produto).not.toBeNull();
+        expect(produto.id).toBeDefined();
+        expect(produto.name).toBe("Tênis");
+
+        // Inserindo com os dados brancos
+        await expect(Produto.create({
+            id: produto.id,
+            name: "",
+            descricao: ""
+        })).rejects.toThrow();
+
+        await expect(Produto.create({
+            id: produto.id,
+            name: "xxx",
+            descricao: ""
+        })).rejects.toThrow();
+
+        await expect(Produto.create({
+            id: produto.id,
+            name: "",
+            descricao: "xxx"
+        })).rejects.toThrow();
+
+        // Inserindo sem nenhuma informação
+        await expect(Produto.create({})).rejects.toThrow();
+
+    });
+
+    test("Update", async () => {
+        const produto = await Produto.create({
+            name: "Tênis",
+            descricao: "tenis muito resistente, tamoanho 41"
+        });
+
+        produto.name = "Camisa";
+
+        await expect(produto.save()).resolves.toBeDefined();
+
+        const produto2 = await Produto.findOne({
+            where: {
+                id: produto.id
+            }
+        });
+
+        expect(produto2.cep).toBe(produto.cep);
+    });
+
+    test("Delete", async () => {
+        const produto = await Produto.create({
+
+            name: "Tênis",
+            descricao: "tenis muito resistente, tamoanho 41"
+
+        });
+
+        await expect(produto.destroy()).resolves.toBeTruthy();
+    });
+});
+
+describe("TipoProduto", () => {
+    beforeAll(async () => {
+        await database.sync();
+    });
+
+    test("List", async () => {
+        await TipoProduto.bulkCreate([
+            {
+                nome: "Tênis",
+            },
+            {
+                nome: "Camisa",
+            },
+            {
+                nome: "Óculos",
+            }
+        ]);
+
+        const tipoproduto = await TipoProduto.findAll();
+
+        expect(tipoproduto.length).toBe(3);
+        expect(tipoproduto[0].nome).toBe("Tênis");
+    });
+
+    test("Insert", async () => {
+
+        const tipoproduto = await TipoProduto.create({
+
+            nome: "Tênis",
+
+        });
+
+        expect(tipoproduto).toBeDefined();
+
+        expect(tipoproduto).not.toBeNull();
+        expect(tipoproduto.id).toBeDefined();
+        expect(tipoproduto.nome).toBe("Tênis");
+
+        // Inserindo com os dados brancos
+        await expect(TipoProduto.create({
+            id: tipoproduto.id,
+            nome: "",
+        })).rejects.toThrow();
+
+        // Inserindo sem nenhuma informação
+        await expect(TipoProduto.create({})).rejects.toThrow();
+
+    });
+
+    test("Update", async () => {
+        const tipoproduto = await TipoProduto.create({
+            nome: "Tênis",
+            
+        });
+
+        tipoproduto.nome = "Camisa";
+
+        await expect(tipoproduto.save()).resolves.toBeDefined();
+
+        const tipoproduto2 = await TipoProduto.findOne({
+            where: {
+                id: tipoproduto.id
+            }
+        });
+
+        expect(tipoproduto2.cep).toBe(tipoproduto.cep);
+    });
+
+    test("Delete", async () => {
+        const tipoproduto = await TipoProduto.create({
+
+            nome: "Tênis",
+        });
+
+        await expect(tipoproduto.destroy()).resolves.toBeTruthy();
+    });
+});
+
+escribe ("Parceiro", () =>{
     test("List", async () => {
         await Parceiro.bulkCreate([
             {

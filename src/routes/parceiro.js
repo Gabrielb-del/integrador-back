@@ -1,5 +1,5 @@
 const express = require("express");
-const { all, one, insert, update, remove } = require("../controllers/parceiro");
+const { all, one, insert, update, remove } = require("../controller/parceiro");
 
 const router = express.Router();
 

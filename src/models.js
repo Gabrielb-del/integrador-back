@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const database = new Sequelize('sqlite::memory:", { logging: false }');
+const DATABASE = process.env.NODE_ENV == "test" ? "sqlite::memory" : "sqlite:./database.sqlite";
+const database = new Sequelize(DATABASE, {logging: false});
 
 const Cliente = database.define('cliente', {
     id: {
@@ -9,7 +10,7 @@ const Cliente = database.define('cliente', {
         primaryKey: true
     },
     nome: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(100),
         allowNull: false,
         validate: {
             notEmpty: true,
