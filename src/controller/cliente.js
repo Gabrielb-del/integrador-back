@@ -13,20 +13,29 @@ const all = async (req, res, next) => {
 
 /** Consulta 1 cliente */
 
-const one = (req, res, next) => {
+const one = async (req, res, next) => {
     try {
+        const id = req.params.id;
+        const cliente = await Cliente.findOne({
+            where: {
+                id: id
+            }
+        });
 
+        if (!cliente)
+            throw new Error("Cliente não encontrado");
+
+        res.send(cliente);
     }
     catch (err) {
-        next (err)
+        next(err);
     }
 }
 
 /** Inserir um cliente */
 const insert = async (req, res, next) => {
     try {
-        res.send(await Cliente.create(req.body));
-        res.send(cliente)
+        res.status(201).send(await Cliente.create(req.body));
     } catch (err) {
         next (err)
     }
@@ -73,7 +82,7 @@ const remove = async (req, res, next ) => {
          
         await cliente.destroy();
 
-        res.status(204);
+        res.status(204).send();
     }
     catch(err) {
         next(err);

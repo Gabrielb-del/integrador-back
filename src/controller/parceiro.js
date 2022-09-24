@@ -11,29 +11,38 @@ const all = async (req, res, next) => {
     }
 }
 
-/** Consulta 1 Parceiro */
+/** Consulta 1 cliente */
 
-const one = (req, res, next) => {
+const one = async (req, res, next) => {
     try {
+        const id = req.params.id;
+        const parceiro = await Parceiro.findOne({
+            where: {
+                id: id
+            }
+        });
 
+        if (!parceiro)
+            throw new Error("Parceiro não encontrado");
+
+        res.send(parceiro);
     }
     catch (err) {
-        next (err)
+        next(err);
     }
 }
 
-/** Inserir um Parceiro */
+/** Inserir um cliente */
 const insert = async (req, res, next) => {
     try {
-        res.send(await Parceiro.create(req.body));
-        res.send(Parceiro)
+        res.status(201).send(await Parceiro.create(req.body));
     } catch (err) {
         next (err)
     }
 
 }
 
-/** Alterando um Parceiro */ 
+/** Alterando um cliente */ 
 
 const update = async (req, res, next) => {
     try{
@@ -57,7 +66,7 @@ const update = async (req, res, next) => {
 }
 
 
-/**Remover um Parceiro */
+/**Remover um cliente */
 
 const remove = async (req, res, next ) => {
     try {
@@ -73,12 +82,11 @@ const remove = async (req, res, next ) => {
          
         await parceiro.destroy();
 
-        res.status(204);
+        res.status(204).send();
     }
     catch(err) {
         next(err);
     }
 }
-
 
 module.exports = {all, one, insert, update, remove};

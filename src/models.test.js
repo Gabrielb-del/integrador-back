@@ -442,7 +442,7 @@ describe("TipoProduto", () => {
     });
 });
 
-escribe ("Parceiro", () =>{
+describe ("Parceiro", () =>{
     test("List", async () => {
         await Parceiro.bulkCreate([
             {
@@ -526,12 +526,41 @@ escribe ("Parceiro", () =>{
 
     
 
-        
+    });
+    test("Update", async () => {
+        const parceiro = await Parceiro.create({
+            nome: "Baratinha",
+            cnpj: "568888888",
+            telefone: "567891234",
+            proprietario: "tinha",
+            cpf:"567891234"
+        });
 
-        
+        parceiro.nome = "Jose";
 
+        await expect(parceiro.save()).resolves.toBeDefined();
+
+        const parceiro2 = await Parceiro.findOne({
+            where: {
+                id: parceiro.id
+            }
+        });
+
+        expect(parceiro2.cep).toBe(parceiro.cep);
     });
 
+    test("Delete", async () => {
+        const parceiro = await Parceiro.create({
+
+            nome: "Baratinha",
+            cnpj: "568888888",
+            telefone: "567891234",
+            proprietario: "tinha",
+            cpf:"567891234"
+        });
+
+        await expect(parceiro.destroy()).resolves.toBeTruthy();
+    });
 
 
 

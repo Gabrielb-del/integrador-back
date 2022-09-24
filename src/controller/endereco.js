@@ -11,29 +11,38 @@ const all = async (req, res, next) => {
     }
 }
 
-/** Consulta 1 Endereco */
+/** Consulta 1 cliente */
 
-const one = (req, res, next) => {
+const one = async (req, res, next) => {
     try {
+        const id = req.params.id;
+        const endereco = await Endereco.findOne({
+            where: {
+                id: id
+            }
+        });
 
+        if (!endereco)
+            throw new Error("Endereço não encontrado");
+
+        res.send(endereco);
     }
     catch (err) {
-        next (err)
+        next(err);
     }
 }
 
-/** Inserir um Endereco */
+/** Inserir um cliente */
 const insert = async (req, res, next) => {
     try {
-        res.send(await Endereco.create(req.body));
-        res.send(endereco)
+        res.status(201).send(await Endereco.create(req.body));
     } catch (err) {
         next (err)
     }
 
 }
 
-/** Alterando um Endereco */ 
+/** Alterando um cliente */ 
 
 const update = async (req, res, next) => {
     try{
@@ -43,7 +52,7 @@ const update = async (req, res, next) => {
             }
         });
         if (!endereco) {
-            throw new Error("Endereco não encontrado");
+            throw new Error("Cliente não encontrado");
         }
          
         endereco.set(req.body);
@@ -57,7 +66,7 @@ const update = async (req, res, next) => {
 }
 
 
-/**Remover um Endereco */
+/**Remover um cliente */
 
 const remove = async (req, res, next ) => {
     try {
@@ -73,7 +82,7 @@ const remove = async (req, res, next ) => {
          
         await endereco.destroy();
 
-        res.status(204);
+        res.status(204).send();
     }
     catch(err) {
         next(err);

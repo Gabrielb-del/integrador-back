@@ -61,9 +61,9 @@ describe("Routes", () => {
         })
         test("DELETE /:id", async () => {
             const cat = await Cliente.create({
-                nome: "Nome teste 3",
-                email: "email@teste3.com",
-                password: "test3"
+                nome: "Nome teste 2",
+                email: "teste2@te2.com",
+                password: "test2"
             });
             const response = await request(app)
                 .delete(`/cliente/${cat.id}`)

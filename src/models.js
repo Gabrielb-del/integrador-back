@@ -162,7 +162,7 @@ Produto.belongsTo(Parceiro);
 Endereco.hasOne(Parceiro);
 Parceiro.belongsTo(Endereco);
 
-Produto.hasMany(TipoProduto);
-TipoProduto.belongsTo(Produto);
+TipoProduto.hasMany(Produto);
+Produto.belongsTo(TipoProduto);
 
 module.exports = { database, Cliente, Parceiro, Endereco, Produto, TipoProduto };
