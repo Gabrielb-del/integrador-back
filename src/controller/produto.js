@@ -2,7 +2,7 @@ const {Produto} = require ("../models")
 
 
 
-/** Lista todas as categorias */
+/** Lista todas os produtos */
 const all = async (req, res, next) => {
     try {
         res.send(await Produto.findAll());
@@ -11,29 +11,38 @@ const all = async (req, res, next) => {
     }
 }
 
-/** Consulta 1 Produto */
+/** Consulta 1 cliente */
 
-const one = (req, res, next) => {
+const one = async (req, res, next) => {
     try {
+        const id = req.params.id;
+        const produto = await Produto.findOne({
+            where: {
+                id: id
+            }
+        });
 
+        if (!produto)
+            throw new Error("Produto não encontrado");
+
+        res.send(cliente);
     }
     catch (err) {
-        next (err)
+        next(err);
     }
 }
 
-/** Inserir um Produto */
+/** Inserir um cliente */
 const insert = async (req, res, next) => {
     try {
-        res.send(await Produto.create(req.body));
-        res.send(produto)
+        res.status(201).send(await Produto.create(req.body));
     } catch (err) {
         next (err)
     }
 
 }
 
-/** Alterando um Produto */ 
+/** Alterando um cliente */ 
 
 const update = async (req, res, next) => {
     try{
@@ -57,7 +66,7 @@ const update = async (req, res, next) => {
 }
 
 
-/**Remover um Produto */
+/**Remover um cliente */
 
 const remove = async (req, res, next ) => {
     try {
@@ -73,12 +82,11 @@ const remove = async (req, res, next ) => {
          
         await produto.destroy();
 
-        res.status(204);
+        res.status(204).send();
     }
     catch(err) {
         next(err);
     }
 }
-
 
 module.exports = {all, one, insert, update, remove};
