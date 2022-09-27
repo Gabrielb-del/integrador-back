@@ -35,6 +35,12 @@ const one = async (req, res, next) => {
 /** Inserir um cliente */
 const insert = async (req, res, next) => {
     try {
+        const data = req.body;
+
+        if (data.password)
+            data.password = await bcrypt.hash(data.password, 10);
+
+        const cliente = await Cliente.create(data);
         res.status(201).send(await Cliente.create(req.body));
     } catch (err) {
         next (err)
@@ -54,7 +60,14 @@ const update = async (req, res, next) => {
         if (!cliente) {
             throw new Error("Cliente não encontrado");
         }
-         
+        
+        const data = req.body;
+
+        if (data.password)
+            data.password = await bcrypt.hash(data.password, 10);
+
+        user.set(data);
+
         cliente.set(req.body);
         
         res.send(await cliente.save());

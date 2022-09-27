@@ -7,76 +7,76 @@ describe("Routes", () => {
         await database.sync();
     });
 
-    describe("endereco", () => {
+    describe("parceiro", () => {
         test("GET /", async () => {
             const response = await request(app)
-                .get("/endereco")
+                .get("/parceiro")
                 .expect(200);
         })
         test("POST /", async () => {
             const response = await request(app)
-                .post('/endereco')
+                .post('/parceiro')
                 .send({
-                    cep:"123456789",
-                    cidade:"bauru",
-                    bairro:"bela vista",
-                    estado:"SP",
-                    rua:"Jose gonsalves"
+                    nome:"KAKAK",
+                    cnpj:"123456789",
+                    telefone:"123456789",
+                    proprietario:"xablau",
+                    cpf:"123456789"
                 })
                 .expect(201);
 
             await request(app)
-                .post('/endereco')
+                .post('/parceiro')
                 .send({})
                 .expect(500);
         })
         test("GET /:id", async () => {
-            const cat = await Endereco.create({
-                cep:"1234567890",
-                cidade:"Jau",
-                bairro:"TEste",
-                estado:"SP",
-                rua:"Jose kakak"
+            const cat = await Parceiro.create({
+                    nome:"xalalau",
+                    cnpj:"9874563210",
+                    telefone:"142536987",
+                    proprietario:"xalalinha",
+                    cpf:"7412589630"
             });
 
             const response = await request(app)
-                .get(`/endereco/${cat.id}`)
+                .get(`/parceiro/${cat.id}`)
                 .expect(200);
 
             const response2 = await request(app)
-                .get("/endereco/1000")
+                .get("/parceiro/1000")
                 .expect(500);
         })
         test("POST /:id", async () => {
-            const cat = await Endereco.create({
-                    cep:"13123456789",
-                    cidade:"test2",
-                    bairro:"test2",
-                    estado:"SP",
-                    rua:"test2"
+            const cat = await Parceiro.create({
+                nome:"qwerty",
+                cnpj:"152368428",
+                telefone:"123456789",
+                proprietario:"zetsub",
+                cpf:"142888753"
             });
 
             const response = await request(app)
-                .post(`/endereco/${cat.id}`)
+                .post(`/parceiro/${cat.id}`)
                 .send({
-                    cep:"12345678955",
-                    cidade:"bariri",
-                    bairro:"MElhor vista",
-                    estado:"SP",
-                    rua:"Josias"
+                nome:"qqqqol",
+                cnpj:"152361118",
+                telefone:"188856789",
+                proprietario:"zetsubzaaao",
+                cpf:"14288111113"
                 })
                 .expect(200);
         })
         test("DELETE /:id", async () => {
-            const cat = await Endereco.create({
-                cep:"12345678955",
-                cidade:"bariri",
-                bairro:"MElhor vista",
-                estado:"SP",
-                rua:"Josias"
+            const cat = await Parceiro.create({
+                nome:"qqqqol",
+                cnpj:"152361118",
+                telefone:"188856789",
+                proprietario:"zetsubzaaao",
+                cpf:"14288111113"
             });
             const response = await request(app)
-                .delete(`/endereco/${cat.id}`)
+                .delete(`/parceiro/${cat.id}`)
                 .expect(204);
         })
 

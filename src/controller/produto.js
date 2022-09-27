@@ -2,7 +2,7 @@ const {Produto} = require ("../models")
 
 
 
-/** Lista todas os produtos */
+/** Lista todas as categorias */
 const all = async (req, res, next) => {
     try {
         res.send(await Produto.findAll());
@@ -25,7 +25,7 @@ const one = async (req, res, next) => {
         if (!produto)
             throw new Error("Produto não encontrado");
 
-        res.send(cliente);
+        res.send(produto);
     }
     catch (err) {
         next(err);
@@ -52,7 +52,7 @@ const update = async (req, res, next) => {
             }
         });
         if (!produto) {
-            throw new Error("Produto não encontrado");
+            throw new Error("Cliente não encontrado");
         }
          
         produto.set(req.body);
