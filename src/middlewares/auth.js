@@ -6,11 +6,11 @@ module.exports = async (req, res, next) => {
         const token = req.header('Authorization');
         var data = jwt.verify(token, "q1w2e3r4t5y6");
 
-        const cliente = await Cliente.findByPk(data.userId);
+        const cliente = await Cliente.findByPk(data.id);
         if (!cliente) throw new Error("Usuário inválido!")
 
-        req.userId = data.userId;
-        req.user = cliente;
+        req.id = data.id;
+        req.cliente = cliente;
 
         next();
     }

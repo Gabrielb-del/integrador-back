@@ -1,6 +1,8 @@
 const request = require("supertest");
 const { database, TipoProduto } = require("../models");
 const app = require("./../app");
+const auth = require("../middlewares/auth");
+
 
 describe("Routes", () => {
     beforeAll(async () => {

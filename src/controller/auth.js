@@ -7,7 +7,7 @@ const me = async (req, res, next) => {
     try {
         const cliente = await Cliente.findOne({
             where: {
-                id: req.userId
+                id: req.id
             }
         });
 
@@ -37,12 +37,12 @@ const login = async (req, res, next) => {
 
 
         const token = jwt.sign({
-            userId: user.id
+            clienteId: cliente.id
         }, "q1w2e3r4t5y6", {
             expiresIn: "7d"
         });
 
-        res.send({ user, token });
+        res.send({ cliente, token });
     } catch (error) {
         next(error);
     }
