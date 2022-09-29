@@ -59,7 +59,6 @@ const register = async (req, res, next) => {
     
 
         const cliente = await Cliente.create(data);
-        console.log(cliente);
 
         res.send(cliente);
     }

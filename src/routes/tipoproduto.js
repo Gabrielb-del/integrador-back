@@ -1,6 +1,5 @@
 const express = require("express");
 const { all, one, insert, update, remove } = require("../controller/tipoproduto");
-const auth = require("../middlewares/auth");
 
 const router = express.Router();
 

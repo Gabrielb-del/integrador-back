@@ -1,4 +1,5 @@
-const {Cliente} = require ("../models")
+const { Cliente } = require("../models")
+const bcrypt = require('bcrypt')
 
 
 
@@ -7,7 +8,7 @@ const all = async (req, res, next) => {
     try {
         res.send(await Cliente.findAll());
     } catch (err) {
-        next (err)
+        next(err)
     }
 }
 
@@ -41,18 +42,18 @@ const insert = async (req, res, next) => {
             data.password = await bcrypt.hash(data.password, 10);
 
         const cliente = await Cliente.create(data);
-        res.status(201).send(await Cliente.create(req.body));
+        res.status(201).send(cliente);
     } catch (err) {
-        next (err)
+        next(err)
     }
 
 }
 
-/** Alterando um cliente */ 
+/** Alterando um cliente */
 
 const update = async (req, res, next) => {
-    try{
-        const cliente = await Cliente.findOne ({
+    try {
+        const cliente = await Cliente.findOne({
             where: {
                 id: req.params.id
             }
@@ -60,28 +61,26 @@ const update = async (req, res, next) => {
         if (!cliente) {
             throw new Error("Cliente não encontrado");
         }
-        
+
         const data = req.body;
 
         if (data.password)
             data.password = await bcrypt.hash(data.password, 10);
 
-        user.set(data);
+        cliente.set(data);
 
-        cliente.set(req.body);
-        
         res.send(await cliente.save());
-    
+
     }
     catch (err) {
-        next (err)
+        next(err)
     }
 }
 
 
 /**Remover um cliente */
 
-const remove = async (req, res, next ) => {
+const remove = async (req, res, next) => {
     try {
         const cliente = await Cliente.findOne({
             where: {
@@ -90,16 +89,16 @@ const remove = async (req, res, next ) => {
         });
 
         if (!cliente) {
-            throw new Error ("Cliente Removido");
+            throw new Error("Cliente Removido");
         }
-         
+
         await cliente.destroy();
 
         res.status(204).send();
     }
-    catch(err) {
+    catch (err) {
         next(err);
     }
 }
 
-module.exports = {all, one, insert, update, remove};
+module.exports = { all, one, insert, update, remove };

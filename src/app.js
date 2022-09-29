@@ -6,7 +6,7 @@ const endereco = require("./routes/endereco");
 const parceiro = require("./routes/parceiro");
 const produto = require("./routes/produto");
 const tipoproduto = require("./routes/tipoproduto");
-const auth = require("/routes/auth");
+const auth = require("./routes/auth");
 
 const app = new express();
 
