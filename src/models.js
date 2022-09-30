@@ -1,7 +1,20 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const DATABASE = process.env.NODE_ENV == "test" ? "sqlite::memory:" : (process.env.NODE_ENV == "production" ? process.env.DATABASE_URL: "sqlite:./database.sqlite");
-const database = new Sequelize(DATABASE, {logging: false});
+const DATABASE = process.env.NODE_ENV == "test" ? "sqlite::memory:" : (process.env.NODE_ENV == "production" ? process.env.DATABASE_URL : "sqlite:./database.sqlite");
+
+let databaseConfig = { logging: false };
+
+if (process.env.NODE_ENV == "production") {
+    databaseConfig = {
+        ...databaseConfig,
+        ssl: true,
+        dialectOptions: {
+            ssl: true,
+        },
+    }
+}
+
+const database = new Sequelize(DATABASE, databaseConfig);
 
 const Cliente = database.define('cliente', {
     id: {
@@ -42,7 +55,7 @@ const Parceiro = database.define('parceiro', {
         allowNull: false,
         validate: {
             notEmpty: true,
-          
+
         }
     },
     cnpj: {
@@ -50,7 +63,7 @@ const Parceiro = database.define('parceiro', {
         allowNull: false,
         validate: {
             notEmpty: true,
-           
+
         }
     },
     telefone: {
@@ -126,7 +139,7 @@ const Produto = database.define('produto', {
         primaryKey: true
     },
     name: {
-        type:  DataTypes.STRING(60),
+        type: DataTypes.STRING(60),
         allowNull: false,
         validate: {
             notEmpty: true
