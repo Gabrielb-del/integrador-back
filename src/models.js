@@ -7,9 +7,12 @@ let databaseConfig = { logging: false };
 if (process.env.NODE_ENV == "production") {
     databaseConfig = {
         ...databaseConfig,
-        ssl: true,
+        dialect: "postgres",
         dialectOptions: {
-            ssl: true,
+            ssl: {
+                require: true,
+                rejectUnanonthorized: false
+            },
         },
     }
 }
